@@ -1,0 +1,7 @@
+{
+  "name": "VoxGuard AI - Audio Forensics",
+  "description": "Professional-grade forensic platform with automated dataset generation, ML training lab, and hybrid AI analysis for detecting voice clones and deepfake audio.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
