@@ -216,11 +216,8 @@ if (process.env.NODE_ENV !== "production") {
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log("=================================");
-  console.log(" VoxGuard Backend Started");
-  console.log("=================================");
-  console.log(`PORT : ${PORT}`);
-  console.log(`NODE_ENV : ${process.env.NODE_ENV}`);
-  console.log(`Python : ${process.env.PYTHON_BIN}`);
+  console.log(`🚀 Server listening on port ${PORT}`);
+  console.log(`Health: http://0.0.0.0:${PORT}/health`);
   console.log("=================================");
 });
 
