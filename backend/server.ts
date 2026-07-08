@@ -90,11 +90,12 @@ app.use((req, res, next) => {
 });
 
 // API Routes
-app.get("/health", (_, res) => {
+app.get("/api/health", (req, res) => {
   res.status(200).json({
-    status: "healthy",
-    uptime: process.uptime(),
-    timestamp: new Date().toISOString()
+    status: "ok",
+    service: "voice-clone-detection",
+    version: "1.0.1",
+    timestamp: new Date().toISOString(),
   });
 });
 
