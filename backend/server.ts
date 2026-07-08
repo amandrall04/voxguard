@@ -7,9 +7,23 @@ import { spawn } from "child_process";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import { analyzeAudio } from "./services/audioProcessor.js";
+import dotenv from "dotenv";
+import cors from "cors";
+
+dotenv.config();
 
 const app = express();
-const PORT = 3000;
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      process.env.FRONTEND_URL || ""
+    ],
+    credentials: true,
+  })
+);
+
+const PORT = Number(process.env.PORT) || 3000;
 
 const uploadDir = path.join(process.cwd(), "uploads");
 if (!fs.existsSync(uploadDir)) {
@@ -68,8 +82,12 @@ app.use((req, res, next) => {
 });
 
 // API Routes
-app.get("/api/health", (req, res) => {
-  res.json({ status: "ok" });
+app.get("/health", (_, res) => {
+  res.status(200).json({
+    status: "healthy",
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString()
+  });
 });
 
 app.post("/api/ml-analyze", async (req, res) => {
@@ -199,7 +217,13 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log("=================================");
+  console.log(" VoxGuard Backend Started");
+  console.log("=================================");
+  console.log(`PORT : ${PORT}`);
+  console.log(`NODE_ENV : ${process.env.NODE_ENV}`);
+  console.log(`Python : ${process.env.PYTHON_BIN}`);
+  console.log("=================================");
 });
 
 function buildAnalysisResponse(

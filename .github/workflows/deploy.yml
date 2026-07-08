@@ -1,0 +1,29 @@
+name: Deploy Check
+
+on:
+
+  workflow_run:
+
+    workflows: ["CI"]
+
+    branches: [main]
+
+    types:
+
+      - completed
+
+jobs:
+
+  deployment:
+
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Deployment Ready
+        run: |
+          echo "Build Passed"
+          echo "GitHub will trigger Vercel deployment."
+          echo "GitHub will trigger Railway deployment."
