@@ -13,6 +13,14 @@ import cors from "cors";
 dotenv.config();
 
 const app = express();
+app.get("/test-chatgpt", (req, res) => {
+  res.json({
+    message: "This is the latest deployment!",
+    version: "1.0.1",
+    time: new Date().toISOString(),
+  });
+});
+
 app.use(
   cors({
     origin: [
