@@ -8,6 +8,9 @@ import FileUpload from './components/FileUpload';
 import Header from './components/Header';
 import { performHybridAnalysis } from './services/analysisService';
 import { useBackendStatus } from './hooks/useBackendStatus';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const App: React.FC = () => {
   const [state, setState] = useState<AppState>({
@@ -23,12 +26,19 @@ const App: React.FC = () => {
 
   const [activeTab, setActiveTab] = useState<'scan' | 'history'>('scan');
   
-  const { status: backendStatus } = useBackendStatus('http://localhost:3000');
+  const API_URL = import.meta.env.VITE_API_URL;
+
+  const API_URL =
+    import.meta.env.VITE_API_URL ||
+    "http://localhost:3000";
+
+  const { status: backendStatus } = useBackendStatus(API_URL);
 
   useEffect(() => {
     const fetchDataset = async () => {
       try {
-        const res = await fetch('/api/dataset');
+        const API_URL = import.meta.env.VITE_API_URL;
+        const res = await fetch(`${API_URL}/api/dataset`);
         const data = await res.json();
         setState(prev => ({ ...prev, datasetInfo: data }));
       } catch (e) {
